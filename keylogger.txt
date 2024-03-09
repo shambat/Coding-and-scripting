@@ -1,0 +1,88 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to perform encryption
+string encryption(string s, int key)
+{
+    string output = ""; // Reset output string
+    char a;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        a = s[i] + key;
+        // Ensure that the character remains within the range of lowercase letters or uppercase letters
+        if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'))
+        {
+            if ((a > 'z' && s[i] <= 'z') || (a > 'Z' && s[i] <= 'Z'))
+            {
+                a -= 26; // Wrap around to the beginning of the alphabet
+            }
+        }
+        output = output + a;
+    }
+    return output;
+}
+
+// Function to perform decryption
+string decryption(string s, int key)
+{
+    string output = ""; // Reset output string
+    char a;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        a = s[i] - key;
+        // Ensure that the character remains within the range of lowercase letters or uppercase letters
+        if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'))
+        {
+            if ((a < 'a' && s[i] >= 'a') || (a < 'A' && s[i] >= 'A'))
+            {
+                a += 26; // Wrap around to the end of the alphabet
+            }
+        }
+        output = output + a;
+    }
+    return output;
+}
+
+int main()
+{
+    string input;
+    int user_choice, key;
+    char choice;
+    do
+    {
+        cout << "1) Encryption\n2) Decryption\nEnter your choice: ";
+        cin >> user_choice;
+
+        cout << endl;
+        cout << "Enter text: ";
+        cin.ignore(); // Ignore the newline character in the buffer
+        getline(cin, input); // Allowing spaces in input
+
+        cout << "Enter key: ";
+        cin >> key;
+
+        cout << endl;
+        switch (user_choice)
+        {
+        case 1:
+            cout << "Encrypted text: " << encryption(input, key);
+            break;
+        case 2:
+            cout << "Decrypted text: " << decryption(input, key);
+            break;
+        default:
+            cout << "Invalid Input!";
+        }
+
+        cout << endl
+             << endl;
+        cout << "Do you want to encrypt or decrypt again? (Y/N): ";
+        cin >> choice;
+    } while (choice == 'Y' || choice == 'y');
+
+    return 0;
+}
+
